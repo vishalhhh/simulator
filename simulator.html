@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./simulator.css">
+    <title>Construction Site Simulator</title>
+    <script type="text/javascript" src="./simulator.js"></script>
+</head>
+
+<body>
+    <div class='container'>
+
+        <div class="title">
+            <h1>Construction Cost Simulator</h1>
+            <h3>An Interactive tool to simulate the operation cost of a construction site.</h3>
+        </div>
+        <div class="jumbotron">
+            <div>
+                <div class='upload-area'>
+                    <input type="file" id="fileToLoad">
+                    <button id="upload-button" onclick="loadSiteMapFile()" class="command-button btn btn-info">Upload</button>
+                    <button id="reset-button" onclick="resetMap()" class="command-button btn btn-warning">Restart Simulation</button>
+                </div>
+                <p id="warning-message" class="warning">Please upload site map to start simulator.</p>
+            </div>
+            <div id="cost-report-id">
+                <h2>Operation Cost Report</h1>
+                    <div id="cost-table-id" class="table-wrapper">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td>Block Type</td>
+                                    <td>No. of Blocks</td>
+                                    <td>No. of Visits</td>
+                                    <td>Cost</td>
+                                </tr>
+                            </thead>
+                            <tbody id="cost-report-body">
+                                <tr>
+                                    <td>Plain Land</td>
+                                    <td id="plainCountId"></td>
+                                    <td id="visitedPlainCountId"></td>
+                                    <td id="plainCostId"></td>
+                                </tr>
+                                <tr>
+                                    <td>Rocky Land</td>
+                                    <td id="rockyCountId"></td>
+                                    <td id="visitedRockyCountId"></td>
+                                    <td id="rockyCostId"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tree Land</td>
+                                    <td id="treeCountId"></td>
+                                    <td id="visitedTreeCountId"></td>
+                                    <td id="treeCostId"></td>
+                                </tr>
+                                <tr>
+                                    <td>Protected Land</td>
+                                    <td id="protectedCountId"></td>
+                                    <td>Not Permitted</td>
+                                    <td id="protectedCostId">Extra Legal Fee</td>
+                                </tr>
+                                <tr>
+                                    <td>Uncleared Land</td>
+                                    <td id="unclearCountId"></td>
+                                    <td>0</td>
+                                    <td id="unclearCostId"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Total Cost</td>
+                                    <td id="totalCostId">$0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+            </div>
+        
+        </div>
+        <h1 id="end" class="warning">Simulation Ended !! </h1>
+        <div class="site-map">
+            <div class="site-area">
+                <div>
+                    <img src="./assets/bull.jpg" id="bull" class="default-position"
+                    alt="bulldozer">
+                </div>
+                <div>
+                    <div id='site'>
+                    </div>
+                    <div id="actionButtons" class="commands">
+                        <button id="left-button" class='command-button btn btn-primary'> <svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z" />
+                            </svg> <span>Left (-90deg)</span>
+                        </button>
+                        <button id="advance-button" class='command-button btn btn-success'>Advance</button>
+                        <button id="right-button" class='command-button btn btn-info'><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-90deg-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M14.854 4.854a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 4H3.5A2.5 2.5 0 0 0 1 6.5v8a.5.5 0 0 0 1 0v-8A1.5 1.5 0 0 1 3.5 5h9.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4z" />
+                            </svg> <span>Right (+90deg)</span></button>
+                        <button id="quit-button" class='command-button btn btn-warning'>Quit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="command-report-id" class="command-report">
+                <h1>Command List</h1>
+                <div id="command-wrapper-id" class=table-wrapper>
+
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>Command</td>
+                            </tr>
+                        </thead>
+                        <tbody id="command-list-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+</body>
+
+</html>
