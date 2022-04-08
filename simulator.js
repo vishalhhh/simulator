@@ -307,19 +307,19 @@ const generateCommandList = (item) => {
 const getBackground = (squareType, tile) => {
     switch (squareType) {
         case 'o':
-            tile.style.background = "url('./assets/plain.jpg') no-repeat center";
+            tile.style.background = "url('./plain.jpg') no-repeat center";
             tile.style.backgroundSize = "100% 100%";
             break;
         case 't':
-            tile.style.background = "url('./assets/trees.jpg') no-repeat center";
+            tile.style.background = "url('./trees.jpg') no-repeat center";
             tile.style.backgroundSize = "100% 100%";
             break;
         case 'r':
-            tile.style.background = "url('./assets/rocky.jpg') no-repeat center";
+            tile.style.background = "url('./rocky.jpg') no-repeat center";
             tile.style.backgroundSize = "100% 100%";
             break;
         case 'T':
-            tile.style.background = "url('./assets/preserved.svg') no-repeat center";
+            tile.style.background = "url('./preserved.svg') no-repeat center";
             tile.style.backgroundSize = "100% 100%";
             break;
         default:
